@@ -5,6 +5,8 @@ all:compileMain
 
 compileMain:
 	$(CXX) $(CXXFLAGS) *.cpp
+	./a.out
+	rm a.out
 
 clean:
 	rm a.out
