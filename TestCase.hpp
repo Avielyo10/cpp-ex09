@@ -8,17 +8,12 @@ class TestCase{
     string testName;
     ostream* op;
     int passed = 0, failed = 0;
-    TestCase(){}
-    TestCase(string name, ostream &out){
-        testName = name;
-        op = &out;
-    }
+    TestCase(string name, ostream &out);
 
     template <class T> 
-    TestCase check_equal(T a,T b){
+    TestCase& check_equal(T a,T b){
         stringstream ssA, ssB;
-        ssA<<a;
-        ssB<<b;
+        ssA<<a;ssB<<b;
         if(a==b){++passed;}
         else{
             ++failed;
@@ -28,10 +23,9 @@ class TestCase{
     }
 
     template <class T> 
-    TestCase check_different(T a,T b){
+    TestCase& check_different(T a,T b){
         stringstream ssA, ssB;
-        ssA<<a;
-        ssB<<b;
+        ssA<<a;ssB<<b;
         if(a!=b){++passed;}
         else{
             ++failed;
@@ -40,8 +34,8 @@ class TestCase{
         return *this;
     }
 
-    template <class T, typename ...Args> 
-    TestCase check_function(int(*function)(Args...),T toOperateOn, int result){
+    template <typename T,typename F,typename C>  
+    TestCase& check_function(const F& function, const T& toOperateOn,const C& result){
         if(function(toOperateOn)==result){++passed;}
         else{
             ++failed;
@@ -51,7 +45,7 @@ class TestCase{
     }
 
     template <class T> 
-    TestCase check_output(T a,string s){
+    TestCase& check_output(T a,string s){
         stringstream ss;
         ss<<a;
         if(ss.str()==s){++passed;}
@@ -61,8 +55,5 @@ class TestCase{
         }
         return *this;
     }
-    TestCase print(){
-       *op <<testName<<": "<<failed<<" failed, "<<passed<<" passed, "<<failed+passed<<" total."<<endl; 
-       return *this;
-    }
+    TestCase print();
 };
