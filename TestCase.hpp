@@ -40,7 +40,8 @@ class TestCase{
         return *this;
     }
 
-    template <class T> TestCase check_function(int(*function)(T t),T toOperateOn, int result){
+    template <class T, typename ...Args> 
+    TestCase check_function(int(*function)(Args...),T toOperateOn, int result){
         if(function(toOperateOn)==result){++passed;}
         else{
             ++failed;
@@ -49,7 +50,8 @@ class TestCase{
         return *this;  
     }
 
-    template <class T> TestCase check_output(T a,string s){
+    template <class T> 
+    TestCase check_output(T a,string s){
         stringstream ss;
         ss<<a;
         if(ss.str()==s){++passed;}
@@ -59,7 +61,6 @@ class TestCase{
         }
         return *this;
     }
-
     TestCase print(){
        *op <<testName<<": "<<failed<<" failed, "<<passed<<" passed, "<<failed+passed<<" total."<<endl; 
        return *this;
